@@ -7,6 +7,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 # Running your first helloworld
 
 ## Chapter Goals
@@ -447,23 +448,26 @@ $ minikube service frontend
 =======
 # Jobs in Kubernetes
 >>>>>>> 761397a (Running jobs in Kubernetes)
+=======
+# Daemonsets and Statefulsets
+>>>>>>> 718c112 (Running stateful set applications)
 
 ## Chapter Goals
-1. How to run jobs
-2. How to run cron jobs
+1. How to run daemonsets
+2. How to run statefulsets
 
-### How to run jobs
-Jobs are a construct that run a pod once, and then stop. However, unlike pods in deployments, the output of the job is kept around until you decide to remove it.
+## Daemonsets
 
-Running a job is similar to running a deployment, and we can create this by `kubectl create -f simplejob.yaml`
+Daemonsets: A DaemonSet ensures that all Nodes run a copy of a Pod. As nodes are added to the cluster, Pods are added to them. Examples of a daemon set would be running your logging or monitoring agent on your nodes.
 
-To see the output of the job: `kubectl get jobs`
+First, you'll want to make sure you tag minikube with a label of `kubectl label node/minikube infra=development` to label the node first.
 
-You can find the pod that ran by doing a `kubectl get pods`, and then get the logs from it as well.
+In the example, I will just run a simple busybox image as a daemonset, and then run daemonset examples to show how you can tag things to run on specific nodes
+`kubectl create -f daemonset.yaml` will run on the nodes
 
-### How to run cron jobs
-Cron jobs are like jobs, but they run periodically.
+`kubectl create -f daemonset-infra-development.yaml`  will only run on nodes labeled `infra=development` (as shown above in the label)
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -495,3 +499,11 @@ Start your cron by running `kubectl create -f cronjob.yaml`
 
 We can use the cronjob api to view your cronjobs: `kubectl get cronjobs`. It adds the last schedule date
 >>>>>>> 761397a (Running jobs in Kubernetes)
+=======
+`kubectl create -f daemonset-infra-prod.yaml`  will only run on nodes labeled `infra=production`
+
+
+## Statefulsets
+
+Statefulsets Manages the deployment and scaling of a set of Pods, and provides guarantees about the ordering and uniqueness of these Pods. Unlike a Deployment, a StatefulSet maintains a sticky identity for each of their Pods.
+>>>>>>> 718c112 (Running stateful set applications)
