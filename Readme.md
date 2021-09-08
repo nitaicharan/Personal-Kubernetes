@@ -6,6 +6,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 # Running your first helloworld
 
 ## Chapter Goals
@@ -443,23 +444,27 @@ $ minikube service frontend
 =======
 # Working with secrets
 >>>>>>> 4f8b74d (Dealing with application secrets)
+=======
+# Jobs in Kubernetes
+>>>>>>> 761397a (Running jobs in Kubernetes)
 
 ## Chapter Goals
-1. Learn how to declare a secret
-2. Understand how to add a secret to a deployment
+1. How to run jobs
+2. How to run cron jobs
 
-### Learn how to declare a secret
-Just like configuration data, applications might also require other data that might be of more sensitive in nature- for example database passwords, or API tokens. Passing these in the yaml for a deployment or pod would make them visible to everyone.
+### How to run jobs
+Jobs are a construct that run a pod once, and then stop. However, unlike pods in deployments, the output of the job is kept around until you decide to remove it.
 
-In these usecases, use a secret to encapsulate sensitive data.
+Running a job is similar to running a deployment, and we can create this by `kubectl create -f simplejob.yaml`
 
-To create a secret: `kubectl create secret generic apikey --from-literal=api_key=123456789`
+To see the output of the job: `kubectl get jobs`
 
-Notice that we can't read the value of the secret directly:
-`kubectl get secret apikey -o yaml`
+You can find the pod that ran by doing a `kubectl get pods`, and then get the logs from it as well.
 
-### Understand how to add a secret to a deployment
+### How to run cron jobs
+Cron jobs are like jobs, but they run periodically.
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 
@@ -485,3 +490,8 @@ Create a helloworld deployment with the UI; specify an app name, and container i
 Adding a secret to a deployment is similar to what we did for configmaps. You can add a secret to the env portion, and start up the deployment with:
 `kubectl create -f secretreader-deployment.yaml`
 >>>>>>> 4f8b74d (Dealing with application secrets)
+=======
+Start your cron by running `kubectl create -f cronjob.yaml`
+
+We can use the cronjob api to view your cronjobs: `kubectl get cronjobs`. It adds the last schedule date
+>>>>>>> 761397a (Running jobs in Kubernetes)
