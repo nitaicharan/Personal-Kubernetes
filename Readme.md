@@ -5,6 +5,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 # Running your first helloworld
 
 ## Chapter Goals
@@ -439,26 +440,27 @@ $ minikube service frontend
 =======
 # Working with configmaps
 >>>>>>> cfc90c3 (Dealing with configuration data)
+=======
+# Working with secrets
+>>>>>>> 4f8b74d (Dealing with application secrets)
 
 ## Chapter Goals
-1. Learn how to declare a configmap
-2. Understand how to call a configmap from a deployment
+1. Learn how to declare a secret
+2. Understand how to add a secret to a deployment
 
-### Learn how to declare a configmap
-Applications require a way for us to pass data to them that can be changed at deploy time. Examples of this might be log-levels or urls of external systems that the application might need at startup time. Instead of hardcoding these values, we can use a configmap in kubernetes, and pass these values as environment variables to the container.
+### Learn how to declare a secret
+Just like configuration data, applications might also require other data that might be of more sensitive in nature- for example database passwords, or API tokens. Passing these in the yaml for a deployment or pod would make them visible to everyone.
 
-We will take an example of "log_level", and pass the value "debug" to a pod via a configmap in this example.
+In these usecases, use a secret to encapsulate sensitive data.
 
-To create a configmap for this literal type `kubectl create configmap logger --from-literal=log_level=debug`
+To create a secret: `kubectl create secret generic apikey --from-literal=api_key=123456789`
 
-To see all your configmaps: `kubectl get configmaps`
+Notice that we can't read the value of the secret directly:
+`kubectl get secret apikey -o yaml`
 
-To read the value in the logger configmap: `kubectl get configmap/logger -o yaml`
+### Understand how to add a secret to a deployment
 
-To edit the value, we can run `kubectl edit configmap/logger`
-
-### Understand how to call a configmap from a deployment
-
+<<<<<<< HEAD
 <<<<<<< HEAD
 
 ### 2. Explore the dashboard and look for the features it supports
@@ -479,3 +481,7 @@ Create a helloworld deployment with the UI; specify an app name, and container i
 >>>>>>> 3ecca84 (The Kubernetes Dashboard)
 =======
 >>>>>>> cfc90c3 (Dealing with configuration data)
+=======
+Adding a secret to a deployment is similar to what we did for configmaps. You can add a secret to the env portion, and start up the deployment with:
+`kubectl create -f secretreader-deployment.yaml`
+>>>>>>> 4f8b74d (Dealing with application secrets)
