@@ -4,6 +4,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 # Running your first helloworld
 
 ## Chapter Goals
@@ -435,27 +436,30 @@ $ minikube service frontend
 >>>>>>> f65af2b (Running a more complicated example)
 =======
 # Running the Kubernetes Dashboard
+=======
+# Working with configmaps
+>>>>>>> cfc90c3 (Dealing with configuration data)
 
 ## Chapter Goals
-1. Run the Kubernetes Dashboard in minikube
-2. Explore the dashboard and look for the features it supports
-3. Create a deployment from the dashboard
+1. Learn how to declare a configmap
+2. Understand how to call a configmap from a deployment
 
-### Run the Kubernetes Dashboard in minikube
-The Kubernetes Dashboard is a simple, web user interface for Kubernetes clusters. It allows users to manage and troubleshoot applications running in the cluster, as well as manage the cluster itself.
+### Learn how to declare a configmap
+Applications require a way for us to pass data to them that can be changed at deploy time. Examples of this might be log-levels or urls of external systems that the application might need at startup time. Instead of hardcoding these values, we can use a configmap in kubernetes, and pass these values as environment variables to the container.
 
-One of the common asks in the container world is for the need for a ui to visualize what is going on with clusters. It was one of the most requested features of Docker when it first started, and is a common requirement for devops engineers to manage clusters.
+We will take an example of "log_level", and pass the value "debug" to a pod via a configmap in this example.
 
-Kubernetes learned from this lesson early on, and created the Kubernetes Dashboard for this purpose, and it allows you to monitor and view clusters from an operational perspective.
+To create a configmap for this literal type `kubectl create configmap logger --from-literal=log_level=debug`
 
-One thing I like about minikube are the addons, and the Kubernetes Dashboard comes bundled as an addon. You can view all addons by typing `minikube addons list`. Let's enable the dashboard by typing `minikube addons enable dashboard`.
+To see all your configmaps: `kubectl get configmaps`
 
-We will also enable the metrics server, to see cluster memory and CPU usage. This is enabled on minikube with `minikube addons enable metrics-server`
+To read the value in the logger configmap: `kubectl get configmap/logger -o yaml`
 
-To start up the dashboard, type `minikube dashboard`
+To edit the value, we can run `kubectl edit configmap/logger`
 
-This will bring up the dashboard in your browser.
+### Understand how to call a configmap from a deployment
 
+<<<<<<< HEAD
 
 ### 2. Explore the dashboard and look for the features it supports
 Explore the cluster sections, available namespaces.
@@ -473,3 +477,5 @@ Create a helloworld deployment with the UI; specify an app name, and container i
 [Dashboard - Full Featured Web Interface for Kubernetes] http://blog.kubernetes.io/2016/07/dashboard-web-interface-for-kubernetes.html
 [Dashboard Github] https://github.com/kubernetes/dashboard
 >>>>>>> 3ecca84 (The Kubernetes Dashboard)
+=======
+>>>>>>> cfc90c3 (Dealing with configuration data)
