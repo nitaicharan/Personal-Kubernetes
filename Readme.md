@@ -1,6 +1,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 # Running your first helloworld
 
 ## Chapter Goals
@@ -103,30 +104,38 @@ minikube service helloworld
 =======
 # Handling application upgrades
 >>>>>>> ae1865c (Handling application upgrades)
+=======
+# Basic troubleshooting techniques
+>>>>>>> 4fb90a8 (Basic troubleshooting techniques)
 
 ## Chapter Goals
-1. Upgrade a deployment from 1 version to another
-2. Rollback the deployment to the 1st version
+1. Kubernetes Techniques
+2. Looking at Log files
+3. Executing commands in a container
 
-### Upgrade a deployment from 1 version to another
+### Overview
+Sometimes things don't work as they should in your deployments, and you'd like to take a closer look to debug issues or understand what's going on. There are 3 techniques I use from a day to day basis when I work with kubernetes. Let me show you what these are.
 
-Let's deploy our initial version of our application `kubectl create -f helloworld-black.yaml --record`. After the deployment and service has completed, let's expose this via a nodeport by `minikube service navbar-service`. This will bring up the helloworld UI that we have seen before. We added the `--record` to this because we want to record our rollout history that I'll talk about later on.
+### Kubernetes Techniques
+When things are not deploying as expected, or things seem to be taking a while, I describe the deployments and pods associated with the deployments to look for errors.
 
-Looking at the deployment, we see that there are 3 desired, current and ready replicas.
+Let's run the helloworld application that is bundled with this section by typing `kubectl create -f helloworld-with-bad-pod.yaml`.
 
-As developers, we're required to make changes to our applications and get these deployed. The rollout functionality of Kubernetes assists with upgrades because it allows us to upgrade the code without any downtime. In our application, I'd like to update the nav bar to a blue color rather than what it is right now. I'll package this in a container with a new label called "blue".
+As it's starting up, we can run a `kubectl get deployments` and a `kubectl describe deployment bad-helloworld-deployment`.
 
-To update the image, I run this command: `kubectl set image deployment/navbar-deployment helloworld=karthequian/helloworld:blue`. This sets the image from what it is currently (karthequian/helloworld:black) to karthequian/helloworld:blue.
+We notice that we have 0 available pods in the deployment that signals that there is something going on with the pod.
 
-The deployment will update, and if you look at the webpage, you'll see the updated text.
+If we introspect pods with a `kubectl get pods`, we see that the `bad-helloworld-deployment` pod is in an image pull backoff state and isn't ready.
 
-Let's take a look at what happened here. When the deployment was edited, a new result set was created for it. Running the `kubectl get rs` command shows us this. One result set with 3 desired, current and ready pods, and another with 0.
+Describing the pod with `kubectl describe pod bad-helloworld-deployment-7bb4b7466-f6nkm`, will show me that kubernetes is having trouble pull the pod from the repository, either because it doesn't exist, or because we're missing the repository credentials.
 
-We can also take a look at the rollout history by typing `kubectl rollout history deployment/navbar-deployment`.
+### Looking at log files
+Another technique I end up using a lot to track pod progress is looking at the log files for a pod. If you write your logs to standard out, you can get to them by the command `kubectl logs <pod_name>`. This will return the log statements that are being written by your application in the pod.
 
-### Rollback the deployment to the 1st version
-To rollback the deployment, we use the rollout undo command `kubectl rollout undo deployment/navbar-deployment`. This will revert our changes back to the previous version.
+### Executing commands in a container
+Finally, sometimes it is necessary to exec into the actual container running the pod to look for errors, or state. To do this, run the exec command `kubectl exec -it <pod-name> -c <container-name> /bin/bash` where -it is an interactive terminal and -c is the flag to specify the container name. Finally we want a bash style terminal.
 
+<<<<<<< HEAD
 Our webpage will be back to the Lionel version of the deployment.
 
 <<<<<<< HEAD
@@ -389,3 +398,6 @@ To summarize, we've learned that we can use readiness and liveness probes to che
 =======
 In a real world setting, you might have a longer history, and might want to rollback to a specific version. To do this, add a `--to-revision=version` to the specific version you want to.
 >>>>>>> ae1865c (Handling application upgrades)
+=======
+This drops us into the container, and we can introspect into the details of our application.
+>>>>>>> 4fb90a8 (Basic troubleshooting techniques)
