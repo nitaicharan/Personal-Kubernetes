@@ -1,5 +1,6 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 # Running your first helloworld
 
 ## Chapter Goals
@@ -99,122 +100,36 @@ minikube service helloworld
 =======
 # Application health checks
 >>>>>>> 07f826f (Application health checks)
+=======
+# Handling application upgrades
+>>>>>>> ae1865c (Handling application upgrades)
 
-## Chapter Goal
-1. Add HTTP health checks to the helloworld deployment
-2. Simulate a failing deployment that fails a readiness probe
-3. Simulate a failing deployment that fails a liveness probe
+## Chapter Goals
+1. Upgrade a deployment from 1 version to another
+2. Rollback the deployment to the 1st version
 
-### Add HTTP health check to the helloworld deployment
+### Upgrade a deployment from 1 version to another
 
-We will take our existing hellworld deployment, and add a readiness and liveness probe healthchecks.
+Let's deploy our initial version of our application `kubectl create -f helloworld-black.yaml --record`. After the deployment and service has completed, let's expose this via a nodeport by `minikube service navbar-service`. This will bring up the helloworld UI that we have seen before. We added the `--record` to this because we want to record our rollout history that I'll talk about later on.
 
-```
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: helloworld-deployment
-spec:
-  selector:
-    matchLabels:
-      app: helloworld
-  replicas: 1 # tells deployment to run 1 pods matching the template
-  template: # create pods using pod definition in this template
-    metadata:
-      labels:
-        app: helloworld
-    spec:
-      containers:
-      - name: helloworld
-        image: karthequian/helloworld:latest
-        ports:
-        - containerPort: 80
-```
+Looking at the deployment, we see that there are 3 desired, current and ready replicas.
 
-A readiness probe is used to know when a container is ready to start accepting traffic.
+As developers, we're required to make changes to our applications and get these deployed. The rollout functionality of Kubernetes assists with upgrades because it allows us to upgrade the code without any downtime. In our application, I'd like to update the nav bar to a blue color rather than what it is right now. I'll package this in a container with a new label called "blue".
 
-The yaml has the following parameters:
-```
-readinessProbe:
-  # length of time to wait for a pod to initialize
-  # after pod startup, before applying health checking
-  initialDelaySeconds: 10
-  # Amount of time to wait before timing out
-  initialDelaySeconds: 1
-  # Probe for http
-  httpGet:
-    # Path to probe
-    path: /
-    # Port to probe
-    port: 80
-```
+To update the image, I run this command: `kubectl set image deployment/navbar-deployment helloworld=karthequian/helloworld:blue`. This sets the image from what it is currently (karthequian/helloworld:black) to karthequian/helloworld:blue.
 
-A liveness probe is used to know when a container might need to be restarted.
+The deployment will update, and if you look at the webpage, you'll see the updated text.
 
-A liveness probe yaml has the following parameters that need to be filled out:
+Let's take a look at what happened here. When the deployment was edited, a new result set was created for it. Running the `kubectl get rs` command shows us this. One result set with 3 desired, current and ready pods, and another with 0.
 
-```
-livenessProbe:
-  # length of time to wait for a pod to initialize
-  # after pod startup, before applying health checking
-  initialDelaySeconds: 10
-  # Amount of time to wait before timing out
-  timeoutSeconds: 1
-  # Probe for http
-  httpGet:
-    # Path to probe
-    path: /
-    # Port to probe
-    port: 80
-```
+We can also take a look at the rollout history by typing `kubectl rollout history deployment/navbar-deployment`.
 
-Thus, our deployment yaml now becomes:
+### Rollback the deployment to the 1st version
+To rollback the deployment, we use the rollout undo command `kubectl rollout undo deployment/navbar-deployment`. This will revert our changes back to the previous version.
 
-```
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: helloworld-deployment-with-probe
-spec:
-  selector:
-    matchLabels:
-      app: helloworld
-  replicas: 1 # tells deployment to run 1 pods matching the template
-  template: # create pods using pod definition in this template
-    metadata:
-      labels:
-        app: helloworld
-    spec:
-      containers:
-      - name: helloworld
-        image: karthequian/helloworld:latest
-        ports:
-        - containerPort: 80
-        readinessProbe:
-          # length of time to wait for a pod to initialize
-          # after pod startup, before applying health checking
-          initialDelaySeconds: 10
-          # Amount of time to wait before timing out
-          initialDelaySeconds: 1
-          # Probe for http
-          httpGet:
-            # Path to probe
-            path: /
-            # Port to probe
-            port: 80
-        livenessProbe:
-          # length of time to wait for a pod to initialize
-          # after pod startup, before applying health checking
-          initialDelaySeconds: 10
-          # Amount of time to wait before timing out
-          timeoutSeconds: 1
-          # Probe for http
-          httpGet:
-            # Path to probe
-            path: /
-            # Port to probe
-            port: 80
+Our webpage will be back to the Lionel version of the deployment.
 
+<<<<<<< HEAD
 ```
 
 We run this yaml the same as we had done before: `kubectl create -f helloworld-deployment-with-probes`
@@ -471,3 +386,6 @@ To summarize, labels in Kubernetes is a powerful concept! Use the labeling featu
 =======
 To summarize, we've learned that we can use readiness and liveness probes to check the status of our pods and use them to restart pods when necessary and check pod health.
 >>>>>>> 07f826f (Application health checks)
+=======
+In a real world setting, you might have a longer history, and might want to rollback to a specific version. To do this, add a `--to-revision=version` to the specific version you want to.
+>>>>>>> ae1865c (Handling application upgrades)
