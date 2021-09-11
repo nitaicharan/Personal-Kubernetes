@@ -2,6 +2,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 # Running your first helloworld
 
 ## Chapter Goals
@@ -401,3 +402,33 @@ In a real world setting, you might have a longer history, and might want to roll
 =======
 This drops us into the container, and we can introspect into the details of our application.
 >>>>>>> 4fb90a8 (Basic troubleshooting techniques)
+=======
+# Running a more real world example
+
+In this chapter, we'll take the popular Kubernetes guestbook, and attempt to run it! You can read more about the guestbook here: [https://kubernetes.io/docs/tutorials/stateless-application/guestbook/]
+
+Run the guestbook by executing `kubectl create -f guestbook.yaml`
+
+You'll see something like this:
+
+```
+$ kubectl create -f guestbook.yaml
+deployment.apps/redis-master created
+service/redis-master created
+deployment.apps/redis-slave created
+service/redis-slave created
+deployment.apps/frontend created
+service/frontend created
+```
+
+Load up the guestbook by running the command `minikube service frontend`. The output would look like this:
+```
+$ minikube service frontend
+|-----------|----------|-------------|---------------------------|
+| NAMESPACE |   NAME   | TARGET PORT |            URL            |
+|-----------|----------|-------------|---------------------------|
+| default   | frontend |          80 | http://192.168.64.2:31824 |
+|-----------|----------|-------------|---------------------------|
+🎉  Opening service default/frontend in default browser...
+```
+>>>>>>> f65af2b (Running a more complicated example)
