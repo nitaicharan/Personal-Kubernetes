@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <!-- PROJECT SHIELDS -->
 ![Kubernetes][kubernetes-shield]
 
@@ -64,6 +63,3 @@ This project is part of my personal study about the open-source system for autom
 [javascript-shield]:https://img.shields.io/badge/-JavaScript-white.svg?logo=javascript&logoColor=black&colorB=F7DF1E
 [nodejs-shield]:https://img.shields.io/badge/-Node.js-white.svg?logo=node.js&logoColor=white&colorB=339933
 [kubernetes-shield]:https://img.shields.io/badge/-Kubernetes-white.svg?logo=kubernetes&logoColor=white&colorB=326CE5
-=======
-# Linkedin-LK1
->>>>>>> 92cde32 (Initial commit)
