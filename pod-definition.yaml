@@ -3,8 +3,16 @@ kind: Pod
 metadata:
   name: dashboard-sa
 spec:
-  nodeSelector:
-    size: large
+  affinity:
+    nodeAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+        - preference:
+            matchExpressions:
+              - key: size
+                operator: In
+                values:
+                  - large
+          weight: 100
   containers:
     - name: dashboard-sa
       image: busybox
