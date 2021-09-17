@@ -3,6 +3,8 @@ kind: Pod
 metadata:
   name: dashboard-sa
 spec:
+  nodeSelector:
+    size: large
   containers:
     - name: dashboard-sa
       image: busybox
@@ -13,8 +15,3 @@ spec:
         requests:
           memory: "1G"
           cpu: "1"
-  tolerations:
-    - key: "app"
-      value: "dashboard-sa"
-      operator: "Equal"
-      effect: "NoSchedule"
