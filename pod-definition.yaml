@@ -7,3 +7,10 @@ spec:
   containers:
     - name: dashboard-sa
       image: busybox
+      resources:
+        limits:
+          memory: "2G"
+          cpu: "2"
+        requests:
+          memory: "1G"
+          cpu: "1"
