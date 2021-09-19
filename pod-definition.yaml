@@ -1,24 +1,10 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: simple-webapp
+  name: event-simulator-pod
 spec:
   containers:
-    - name: simple-webapp
-      image: simple-webapp
-      ports:
-        - containerPort: 8080
-      readinessProbe:
-        httpGet:
-          path: /api/read
-          port: 8080
-        initialDelaySeconds: 10
-        periodSeconds: 5
-        failureThreshold: 8
-      livenessProbe:
-        httpGet:
-          path: /api/healthy
-          port: 8080
-        initialDelaySeconds: 10
-        periodSeconds: 5
-        failureThreshold: 8
+    - name: event-simulator-pod
+      image: kodekloud/event-simulator
+    - name: image-processor
+      image: some-image-processor
